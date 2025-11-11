@@ -505,6 +505,9 @@ let
       exePath = lib.getExe package;
       binName = baseNameOf exePath;
 
+      # lndir was moved from xorg.lndir to lndir in https://github.com/NixOS/nixpkgs/pull/402102
+      lndir = if pkgs ? xorg.lndir then pkgs.xorg.lndir else pkgs.lndir;
+
       # Generate environment variable exports
       envString =
         if env == { } then
@@ -559,7 +562,7 @@ let
               # Symlink all paths to the main output
               mkdir -p $out
               for path in ${lib.concatStringsSep " " (map toString paths)}; do
-                ${pkgs.lndir}/bin/lndir -silent "$path" $out
+                ${lndir}/bin/lndir -silent "$path" $out
               done
 
               # Exclude specified files
@@ -619,7 +622,7 @@ let
                     if [[ -n "''${${output}:-}" ]]; then
                       mkdir -p ${"$" + output}
                       # Only symlink from the original package's corresponding output
-                      ${pkgs.lndir}/bin/lndir -silent "${originalOutputs.${output}}" ${"$" + output}
+                      ${lndir}/bin/lndir -silent "${originalOutputs.${output}}" ${"$" + output}
                     fi
                   ''
                 else
