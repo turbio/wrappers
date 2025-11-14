@@ -57,6 +57,12 @@ wlib.wrapModule (
     }
     // config.extraFlags;
     config.package = lib.mkDefault config.pkgs.ghostty;
-    config.meta.maintainers = [ lib.maintainers.zimward ];
+    config.meta.maintainers = [
+      {
+        name = "turbio";
+        github = "turbio";
+        githubId = 1428207;
+      }
+    ];
   }
 )
