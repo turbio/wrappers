@@ -65,6 +65,7 @@ in
   }
   // config.extraFlags;
   config.package = lib.mkDefault config.pkgs.ghostty;
+  config.meta.platforms = lib.platforms.linux ++ lib.platforms.darwin;
   config.meta.maintainers = [
     {
       name = "turbio";
