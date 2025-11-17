@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  wlib,
   ...
 }:
 let
@@ -44,6 +45,14 @@ in
         See {manpage}`ghostty(5)` or <https://ghostty.org/docs/config/reference>
       '';
     };
+    configFile = lib.mkOption {
+      type = wlib.types.file config.pkgs;
+      default.path = kvFmt.generate "ghostty-config" config.settings;
+      description = ''
+        Configuration of ghostty.
+        See {manpage}`ghostty(5)` or <https://ghostty.org/docs/config/reference>
+      '';
+    };
     extraFlags = lib.mkOption {
       type = lib.types.attrsOf lib.types.unspecified; # TODO add list handling
       default = { };
@@ -52,7 +61,7 @@ in
   };
   config.flagSeparator = "=";
   config.flags = {
-    "--config-file" = builtins.toString (kvFmt.generate "ghostty-config" config.settings);
+    "--config-file" = config.configFile.path;
   }
   // config.extraFlags;
   config.package = lib.mkDefault config.pkgs.ghostty;
