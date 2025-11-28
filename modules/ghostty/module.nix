@@ -53,18 +53,12 @@ in
         See {manpage}`ghostty(5)` or <https://ghostty.org/docs/config/reference>
       '';
     };
-    extraFlags = lib.mkOption {
-      type = lib.types.attrsOf lib.types.unspecified; # TODO add list handling
-      default = { };
-      description = "Extra flags to pass to ghostty.";
-    };
   };
   config.flagSeparator = "=";
   config.flags = {
     "--config-file" = config.configFile.path;
-  }
-  // config.extraFlags;
-  config.package = lib.mkDefault config.pkgs.ghostty;
+  };
+  config.package = config.pkgs.ghostty;
   config.meta.platforms = lib.platforms.linux ++ lib.platforms.darwin;
   config.meta.maintainers = [
     {
